@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Badge, Box, Dropdown, Menu, MenuButton } from "@mui/joy";
 import { Notifications } from "@mui/icons-material";
 
 import { notificationData } from "../../static-data/notification";
 import { NotificationComponent } from "../listing_component/notification-template";
-import { notifType } from "../../static-data/Type/notifType";
+
 // import { NotificationAlternate } from "./Notification-Comp";
 
 export const NotiModal = () => {
@@ -13,7 +13,6 @@ export const NotiModal = () => {
   // Assuming you want to update length based on notificationData changes
   // This useEffect is not necessary if notificationData doesn't change after initialization
   //
-  let a = 0;
   useEffect(() => {
     let unreadCount = 0;
 
