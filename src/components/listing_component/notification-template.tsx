@@ -1,7 +1,14 @@
 import React, { useState } from "react";
-import { DialogContent, DialogTitle, ListDivider, MenuItem } from "@mui/joy";
+import {
+  Button,
+  DialogContent,
+  DialogTitle,
+  ListDivider,
+  MenuItem,
+} from "@mui/joy";
 import { ListItemText } from "@mui/material";
 import { notifType } from "../../static-data/Type/notifType";
+import { Close } from "@mui/icons-material";
 
 interface NotificationComponentProps {
   notify: notifType["notif"][];
@@ -34,6 +41,9 @@ export const NotificationComponent: React.FC<NotificationComponentProps> = ({
             secondary={<DialogContent>{notifItem.content}</DialogContent>}
           />
           <ListDivider />
+          <Button>
+            <Close />
+          </Button>
         </MenuItem>
       ))}
     </>
