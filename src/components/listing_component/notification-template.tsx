@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Button,
+  Container,
   DialogContent,
   DialogTitle,
   ListDivider,
@@ -18,6 +19,8 @@ export const NotificationComponent: React.FC<NotificationComponentProps> = ({
   notify,
 }) => {
   const [notif, setNotif] = useState<notifType["notif"][]>(notify);
+  const [isCloseButtonVisible, setIsCloseButtonVisible] = useState(false);
+
   // const changeState = (e: React.MouseEvent) => {
   //   const;
   return (
@@ -31,19 +34,32 @@ export const NotificationComponent: React.FC<NotificationComponentProps> = ({
             notifItem.isRead = !notifItem.isRead;
           }}
         >
-          <ListItemText
-            primary={
-              <DialogTitle>
-                {" "}
-                <b>{notifItem.title}</b>
-              </DialogTitle>
-            }
-            secondary={<DialogContent>{notifItem.content}</DialogContent>}
-          />
+          <Container>
+            <ListItemText
+              primary={
+                <DialogTitle>
+                  {" "}
+                  <b>{notifItem.title}</b>
+                </DialogTitle>
+              }
+              secondary={<DialogContent>{notifItem.content}</DialogContent>}
+            />
+          </Container>
+
+          <Container
+            onMouseEnter={() => setIsCloseButtonVisible(true)}
+            onMouseLeave={() => setIsCloseButtonVisible(false)}
+          >
+            {isCloseButtonVisible && (
+              <Button
+                variant="plain"
+                color={notifItem.isRead ? "neutral" : "primary"}
+              >
+                <Close />
+              </Button>
+            )}
+          </Container>
           <ListDivider />
-          <Button>
-            <Close />
-          </Button>
         </MenuItem>
       ))}
     </>
