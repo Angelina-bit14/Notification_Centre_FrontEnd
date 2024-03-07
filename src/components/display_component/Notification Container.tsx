@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Badge,
   Box,
@@ -9,14 +9,11 @@ import {
   Menu,
   MenuButton,
   Snackbar,
-  SnackbarOrigin,
   Switch,
 } from "@mui/joy";
-import { Notifications, Settings } from "@mui/icons-material";
+import { Notifications } from "@mui/icons-material";
 import { notificationData } from "../../static-data/notification";
 import { NotificationComponent } from "../listing_component/notification-template";
-import { SettingsPage } from "./Notification-Settings";
-import { useNavigate } from "react-router-dom";
 import { Slide, SnackbarContent } from "@mui/material";
 
 // import { NotificationAlternate } from "./Notification-Comp";
@@ -24,10 +21,7 @@ import { Slide, SnackbarContent } from "@mui/material";
 export const NotiModal = () => {
   const [length, setLength] = useState(0);
   const [isToastOpen, setIsToastOpen] = useState(false);
-  const [notifState, setNotifState] = useState({
-    on: false,
-    noOfTimes: 0,
-  });
+  const [notifState, setNotifState] = useState(false);
   // Assuming you want to update length based on notificationData changes
   // This useEffect is not necessary if notificationData doesn't change after initialization
   //
@@ -35,7 +29,7 @@ export const NotiModal = () => {
     event: React.SyntheticEvent | Event,
     reason?: string
   ) => {
-    if (reason === "clickaway" || reason === "escape") {
+    if (reason === "clickaway" || reason === "") {
       return;
     }
   };
@@ -53,6 +47,7 @@ export const NotiModal = () => {
     // console.log(typeof len);
     // setLength(5);
     setLength(unreadCount);
+    setNotifState(true);
   }, [notificationData]);
 
   console.log(notificationData);
@@ -77,7 +72,6 @@ export const NotiModal = () => {
                   defaultChecked
                   onChange={() => {
                     setIsToastOpen(true);
-                    setNotifState(()=>{...prevState,noOfItems: prevState.noOfItems + 1})
                   }}
                 ></Switch>
               </div>{" "}
@@ -87,31 +81,30 @@ export const NotiModal = () => {
           </Menu>
         </Dropdown>
       </Box>
-      {notifState.noOfTimes !== 0 &&
-        (notifState.on ? (
-          <Snackbar
-            anchorOrigin={{ vertical: "top", horizontal: "center" }}
-            open={isToastOpen}
-            onClose={handleClose}
-            autoHideDuration={5000}
-            transitionDuration={{ enter: 1000 }}
-            TransitionComponent={Slide}
-          >
-            <SnackbarContent message="This is weird" />
-            <Button onClick={handleClose}></Button>
-          </Snackbar>
-        ) : (
-          <Snackbar
-            anchorOrigin={{ vertical: "top", horizontal: "center" }}
-            open={isToastOpen}
-            onClose={handleClose}
-            autoHideDuration={5000}
-            transitionDuration={{ enter: 1000 }}
-            TransitionComponent={Slide}
-          >
-            <SnackbarContent message="What in the world" />
-          </Snackbar>
-        ))}
+      {!notifState ? (
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={isToastOpen}
+          onClose={handleClose}
+          autoHideDuration={5000}
+          transitionDuration={{ enter: 1000 }}
+          TransitionComponent={Slide}
+        >
+          <SnackbarContent message="Notifications are on" />
+          <Button onClick={handleClose}></Button>
+        </Snackbar>
+      ) : (
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={isToastOpen}
+          onClose={handleClose(e, "clickaway")}
+          autoHideDuration={2000}
+          transitionDuration={{ enter: 1000 }}
+          TransitionComponent={Slide}
+        >
+          <SnackbarContent message="What in the world" />
+        </Snackbar>
+      )}
     </>
   );
 };
