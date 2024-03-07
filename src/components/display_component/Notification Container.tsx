@@ -41,19 +41,6 @@ export const NotiModal = () => {
         </MenuButton>
         <Menu>
           <NotificationComponent notify={notificationData} />
-          {/* <NotificationAlternate notify={notificationData} /> */}
-          {/* <MenuItem>
-            <b>Chocolate</b>
-          </MenuItem>
-          <MenuItem>
-            <b>Bubble Gum</b>
-          </MenuItem>
-          <MenuItem>
-            <b>Youtube</b>
-          </MenuItem>
-          <MenuItem>
-            <b>Router</b>
-          </MenuItem> */}
         </Menu>
       </Dropdown>
     </Box>
