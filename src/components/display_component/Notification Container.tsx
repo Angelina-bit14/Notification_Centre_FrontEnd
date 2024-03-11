@@ -19,6 +19,7 @@ import { Slide, SnackbarContent } from "@mui/material";
 // import { NotificationAlternate } from "./Notification-Comp";
 
 export const NotiModal = () => {
+  const animation = { animationName: Slide, animationDuration: 600 };
   const [length, setLength] = useState(0);
   const [isToastOpen, setIsToastOpen] = useState(false);
   const [notifState, setNotifState] = useState(false);
@@ -26,14 +27,14 @@ export const NotiModal = () => {
   // This useEffect is not necessary if notificationData doesn't change after initialization
   //
   const handleClose = (
-    event: React.SyntheticEvent | Event,
+    event?: React.SyntheticEvent<Element, Event> | null | Event,
     reason?: string
   ) => {
-    if (reason === "clickaway" || reason === "") {
-      return;
-    }
+    if (reason === "clickaway" || reason === "escapeKeyDown") return;
+    setIsToastOpen(false);
+    noOfTimes = noOfTimes + 1;
   };
-
+  let noOfTimes = 0;
   useEffect(() => {
     let unreadCount = 0;
 
@@ -81,30 +82,47 @@ export const NotiModal = () => {
           </Menu>
         </Dropdown>
       </Box>
-      {!notifState ? (
-        <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={isToastOpen}
-          onClose={handleClose}
-          autoHideDuration={5000}
-          transitionDuration={{ enter: 1000 }}
-          TransitionComponent={Slide}
-        >
-          <SnackbarContent message="Notifications are on" />
-          <Button onClick={handleClose}></Button>
-        </Snackbar>
-      ) : (
-        <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={isToastOpen}
-          onClose={handleClose(e, "clickaway")}
-          autoHideDuration={2000}
-          transitionDuration={{ enter: 1000 }}
-          TransitionComponent={Slide}
-        >
-          <SnackbarContent message="What in the world" />
-        </Snackbar>
-      )}
+      {notifState
+        ? noOfTimes !== 0 && (
+            <Snackbar
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              open={isToastOpen}
+              onClose={handleClose}
+              autoHideDuration={5000}
+              animationDuration={animation.animationDuration}
+              sx={{
+                ...(isToastOpen && {
+                  animation: `${animation.animationName} ${animation.animationDuration}ms forwards`,
+                }),
+                ...(!isToastOpen && {
+                  animation: `${animation.animationName} ${animation.animationDuration}ms forwards`,
+                }),
+              }}
+            >
+              <SnackbarContent message="Notifications are on" />
+              <Button onClick={handleClose}>Okay</Button>
+            </Snackbar>
+          )
+        : noOfTimes !== 0 && (
+            <Snackbar
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              open={isToastOpen}
+              onClose={handleClose}
+              autoHideDuration={2000}
+              animationDuration={animation.animationDuration}
+              sx={{
+                ...(isToastOpen && {
+                  animation: `${animation.animationName} ${animation.animationDuration}ms forwards`,
+                }),
+                ...(!isToastOpen && {
+                  animation: `${animation.animationName} ${animation.animationDuration}ms forwards`,
+                }),
+              }}
+            >
+              <SnackbarContent message="Notifications are off" />
+              <Button onClick={handleClose}>Okay</Button>
+            </Snackbar>
+          )}
     </>
   );
 };

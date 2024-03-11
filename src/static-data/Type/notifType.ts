@@ -4,5 +4,6 @@ export type notifType = {
     title: string;
     content: string;
     isRead: boolean;
+    isCloseButtonVisible: boolean;
   };
 };

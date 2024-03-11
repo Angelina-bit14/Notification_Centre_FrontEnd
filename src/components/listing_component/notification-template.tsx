@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import {
-  Button,
   Container,
   DialogContent,
   DialogTitle,
   ListDivider,
+  ListItem,
   MenuItem,
 } from "@mui/joy";
 import { ListItemText } from "@mui/material";
 import { notifType } from "../../static-data/Type/notifType";
-import { Close } from "@mui/icons-material";
 
 interface NotificationComponentProps {
   notify: notifType["notif"][];
@@ -19,7 +18,6 @@ export const NotificationComponent: React.FC<NotificationComponentProps> = ({
   notify,
 }) => {
   const [notif, setNotif] = useState<notifType["notif"][]>(notify);
-  const [isCloseButtonVisible, setIsCloseButtonVisible] = useState(false);
 
   // const changeState = (e: React.MouseEvent) => {
   //   const;
@@ -34,7 +32,7 @@ export const NotificationComponent: React.FC<NotificationComponentProps> = ({
             notifItem.isRead = !notifItem.isRead;
           }}
         >
-          <Container>
+          <ListItem>
             <ListItemText
               primary={
                 <DialogTitle>
@@ -44,21 +42,7 @@ export const NotificationComponent: React.FC<NotificationComponentProps> = ({
               }
               secondary={<DialogContent>{notifItem.content}</DialogContent>}
             />
-          </Container>
-
-          <Container
-            onMouseEnter={() => setIsCloseButtonVisible(true)}
-            onMouseLeave={() => setIsCloseButtonVisible(false)}
-          >
-            {isCloseButtonVisible && (
-              <Button
-                variant="plain"
-                color={notifItem.isRead ? "neutral" : "primary"}
-              >
-                <Close />
-              </Button>
-            )}
-          </Container>
+          </ListItem>
           <ListDivider />
         </MenuItem>
       ))}
