@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Badge, Box, Dropdown, Menu, MenuButton } from "@mui/joy";
+import { Badge, Box, Container, Dropdown, Menu, MenuButton } from "@mui/joy";
 import { Notifications } from "@mui/icons-material";
 
 import { notificationData } from "../../static-data/notification";
 import { NotificationComponent } from "../listing_component/notification-template";
+import { Grid } from "@mui/material";
 
 // import { NotificationAlternate } from "./Notification-Comp";
 
@@ -34,13 +35,24 @@ export const NotiModal = () => {
     <Box>
       <Dropdown>
         <MenuButton variant="plain">
-          <Badge badgeContent={length} max={1000} badgeInset="0 -12 0 0">
+          <Badge badgeContent={length} max={100} badgeInset="0 -12 0 0">
             {/* <Badge badgeContent={length} max={1000}> */}
             <Notifications />
           </Badge>
         </MenuButton>
-        <Menu>
-          <NotificationComponent notify={notificationData} />
+        <Menu sx={{ minHeight: "60vh", minWidth: "30vh", overflow: "auto" }}>
+          <Grid container spacing={2}>
+            <Grid xs={2} sm={4} md={4} lg={4}>
+              <Container>
+                <h2>Notifications</h2>
+              </Container>
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={2} sm={4} md={4} lg={4}>
+              <NotificationComponent notify={notificationData} />
+            </Grid>
+          </Grid>
         </Menu>
       </Dropdown>
     </Box>
